@@ -21,7 +21,7 @@ else:
         print ('[2] Insert')
         print ('[3] Delete')
         print ('[0] Esci')
-        ans=input()
+        ans=input('Input: ')
 
         if ans=="1": 
             #Select Query
@@ -33,6 +33,7 @@ else:
                 while row:
                     print (str(row[0]) + "  " + str(row[1]) + "  " + str(row[2]))
                     row = cursor.fetchone()
+                    sleep(0.2)
             except pyodbc.Error as ex:
                 print(ex.args[1])
             print()
@@ -46,11 +47,11 @@ else:
             region_id = int(input('region_id [int 1..4]: '))
             try:
                 tsql = "INSERT INTO countries VALUES (?,?,?);"
-                cursor.execute(tsql,country_id,country_name,region_id)
+                cursor.execute(tsql,country_id.upper(),country_name,region_id)
                 print ('Record inserito correttamente\n')
             except pyodbc.Error as ex:
                 print(ex.args[1])
-            sleep(1)
+            sleep(0.5)
            
         elif ans=="3":
             #Delete Query
@@ -61,17 +62,18 @@ else:
                 cursor.execute("select @@rowcount")
                 rowcount = cursor.fetchall()[0][0]
                 if rowcount == 0: 
-                    print('Nessun record eliminato\n')
+                    print('Nessun record presente con country id '+ country_id +'\n')
                 else:
                     print ('Record eliminato\n')
             except pyodbc.Error as ex:
                 print(ex.args[1])
-            sleep(1)
+            sleep(0.5)
 
         elif ans =="0":
-            print("Adios") 
+            print("Adios\n")
+            sleep(0.5) 
             ans = None
 
         else:
             print("Selezione non valida\n")
-            sleep(1)
+            sleep(0.5)
