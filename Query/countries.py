@@ -45,7 +45,7 @@ else:
             #Insert Query
             print ('Inserisci un nuovo record')
             country_id = input('country_id [char(2)]: ')
-            country_name = input('country_name: ')
+            country_name = input('country_name [varchar(40)]: ')
             region_id = int(input('region_id [int 1..4]: '))
             tsql = "INSERT INTO countries VALUES (?,?,?);"
             try:
@@ -56,14 +56,14 @@ else:
            
         elif ans=="3":
             #Delete Query
-            country_id = input('Inserisci il country_id [char(2)] da eliminare: ')
+            country_id = input('Inserisci il country_id [char(2)] del record da eliminare: ')
             tsql = "DELETE FROM countries WHERE country_id = ?;"
             try: 
                 with cursor.execute(tsql,country_id.upper()):
                     with cursor.execute("select @@rowcount"):
                         rowcount = cursor.fetchall()[0][0]
                         if rowcount == 0: 
-                            print('Nessun record presente con country_id '+ country_id.upper() +'\n')
+                            print('Nessun record presente con country_id = ' + country_id.upper() + '\n')
                         else:
                             print ('Record eliminato correttamente\n')
             except pyodbc.Error as ex:
