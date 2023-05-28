@@ -71,7 +71,7 @@ else:
                 
         elif ans=="4":
             #Update Query
-            department_id = int(input('Inserisci il department_id del record da aggiornare: '))
+            department_id = int(input('Inserisci il department_id del record da modificare: '))
             tsql = "SELECT * FROM departments WHERE department_id = ?;"
             try: 
                 with cursor.execute(tsql,department_id):
@@ -84,7 +84,7 @@ else:
                             print('\ndepartment_name | location_id')
                             print (str(row[1]) + " | " + str(row[2]))
                             sleep(0.2)
-                            print('\nInserisci i nuovi valori')
+                            print('\nNuovi valori')
                             department_name = input('Inserisci il department_name [varchar(30)]: ')
                             location_id = int(input('Inserisci il location_id [int]: '))
                             tsql = "UPDATE departments SET department_name = ?, location_id = ? WHERE department_id = ?;"

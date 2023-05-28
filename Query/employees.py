@@ -19,7 +19,7 @@ else:
         print ('Seleziona operazione da eseguire:')
         print ('[1] Select')
         print ('[2] Insert')
-        print ('[3] persone a carico')
+        print ('[3] Persone a carico')
         print ('[4] Update')
         print ('[0] Esci')
         ans=input('Input: ')
@@ -51,9 +51,9 @@ else:
             print ('Inserisci un nuovo record')
             first_name = input('Inserisci il first_name [varchar(20)]: ')
             last_name = input('Inserisci il last_name [varchar(25)]: ')
-            email = input('Inserisci il email [varchar(100)]: ')
+            email = input('Inserisci l\'email [varchar(100)]: ')
             phone_number = input('Inserisci il phone_number [varchar(20)]: ')
-            hire_date = input('Inserisci il hire_date [YYYY-MM-DD]: ')
+            hire_date = input('Inserisci  l\'hire_date [YYYY-MM-DD]: ')
             job_id = int(input('Inserisci il job_id [int]: '))
             salary = int(input('Inserisci il salary [int]: '))
             manager_id = int(input('Inserisci il manager_id [int]: '))
@@ -86,28 +86,28 @@ else:
             except pyodbc.Error as ex:
                 print(ex.args[1])
             print('-----------------------------------------------------------------------------------')
-            
+                    
         elif ans=="4":
             #Update Query
-            department_id = int(input('Inserisci il department_id del record da aggiornare: '))
-            tsql = "SELECT * FROM departments WHERE department_id = ?;"
+            employee_id = int(input('Inserisci l\'employee_id del record da modificare: '))
+            tsql = "SELECT * FROM employees WHERE employee_id = ?;"
             try: 
-                with cursor.execute(tsql,department_id):
+                with cursor.execute(tsql,employee_id):
                     row = cursor.fetchone()
                     with cursor.execute("select @@rowcount"):
                         rowcount = cursor.fetchall()[0][0]
                         if rowcount == 0: 
-                            print('Nessun record presente con department_id = ' + str(department_id) + '\n')
+                            print('Nessun record presente con l\'employee_id inserito\n')
                         else:
-                            print('\ndepartment_name | location_id')
-                            print (str(row[1]) + " | " + str(row[2]))
+                            print('\nfirst_name, last_name | email | phone_number | hire_date')
+                            print (str(row[1]) + ", " + str(row[2]) + " | " + str(row[3]) + " | " + str(row[4]) + " | " + str(row[5]))
                             sleep(0.2)
-                            print('\nInserisci i nuovi valori')
-                            department_name = input('Inserisci il department_name [varchar(30)]: ')
-                            location_id = int(input('Inserisci il location_id [int]: '))
-                            tsql = "UPDATE departments SET department_name = ?, location_id = ? WHERE department_id = ?;"
+                            print('\nNuovi valori')
+                            email = input('Inserisci l\'email [varchar(100)]: ')
+                            phone_number = input('Inserisci il phone_number [varchar(20)]: ')
+                            tsql = "UPDATE employees SET email = ?, phone_number = ? WHERE employee_id = ?;"
                             try:
-                                with cursor.execute(tsql,department_name,location_id,department_id):
+                                with cursor.execute(tsql,email,phone_number,employee_id):
                                     print ('Record aggiornato correttamente\n')
                             except pyodbc.Error as ex:
                                 print(ex.args[1])
