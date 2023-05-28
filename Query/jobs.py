@@ -13,7 +13,7 @@ except pyodbc.Error as ex:
     if sqlstate == '28000':
         print("Connessione per " + username + " fallita")
 else:
-    print('\nTabella departments')
+    print('\nTabella jobs')
     ans=True
     while ans:
         print ('Seleziona operazione da eseguire:')
@@ -26,70 +26,71 @@ else:
 
         if ans=="1": 
             #Select Query
-            department = input('Inserisci dipartimento da cercare: ')
-            tsql =  "SELECT d.department_id, d.department_name,l.street_address, l.city " +\
-                    "FROM departments AS d, locations AS l " +\
-                    "WHERE d.location_id = l.location_id AND d.department_name LIKE ?;"
+            job = input('Inserisci il job_title da cercare: ')
+            tsql =  "SELECT job_id, job_title, min_salary, max_salary " +\
+                    "FROM jobs " +\
+                    "WHERE job_title LIKE ?;"  
             try:
-                with cursor.execute(tsql,'%'+department+'%'):
-                    print('\ndepartment_id | department_name | street_address, city')
+                with cursor.execute(tsql,'%'+job+'%'):
+                    print('\njob_id | job_title | min_salary | max_salary')
                     row = cursor.fetchone()
                     while row:
-                        print (str(row[0]) + " | " + str(row[1]) + " | " + str(row[2]) + ", " + str(row[3]))
+                        print (str(row[0]) + " | " + str(row[1]) + ", " + str(row[2]) + " | " + str(row[3]))
                         row = cursor.fetchone()
                         sleep(0.2)
             except pyodbc.Error as ex:
                 print(ex.args[1])
-            print('-------------------------------------------------------------')       
+            print('-------------------------------------------------------')       
             
         elif ans=="2":
             #Insert Query
             print ('Inserisci un nuovo record')
-            department_name = input('Inserisci il department_name [varchar(30)]: ')
-            location_id = int(input('Inserisci il location_id [int]: '))
-            tsql = "INSERT INTO departments VALUES (?,?);"
+            job_title = input('Inserisci il job_title [varchar(35)]: ')
+            min_salary = int(input('Inserisci il min_salary [int]: '))
+            max_salary = int(input('Inserisci il max_salary [int]: '))
+            tsql = "INSERT INTO jobs VALUES (?,?,?);"
             try:
-                with cursor.execute(tsql,department_name,location_id):
+                with cursor.execute(tsql,job_title,min_salary,max_salary):
                     print ('Record inserito correttamente\n')
             except pyodbc.Error as ex:
                 print(ex.args[1])
            
         elif ans=="3":
             #Delete Query
-            department_id = int(input('Inserisci il department_id del record da eliminare: '))
-            tsql = "DELETE FROM departments WHERE department_id = ?;"
+            job_id = int(input('Insserisci il job_id del record da eliminare: '))
+            tsql = "DELETE FROM jobs WHERE job_id = ?;"
             try: 
-                with cursor.execute(tsql,department_id):
+                with cursor.execute(tsql,job_id):
                     with cursor.execute("select @@rowcount"):
                         rowcount = cursor.fetchall()[0][0]
                         if rowcount == 0: 
-                            print('Nessun record presente con department_id inserito\n')
+                            print('Nessun record presente con il job_id inserito\n')
                         else:
                             print ('Record eliminato correttamente\n')
             except pyodbc.Error as ex:
                 print(ex.args[1])
-                
+                    
         elif ans=="4":
             #Update Query
-            department_id = int(input('Inserisci il department_id del record da modificare: '))
-            tsql = "SELECT * FROM departments WHERE department_id = ?;"
+            job_id = int(input('Inserisci il job_id del record da aggiornare: '))
+            tsql = "SELECT * FROM jobs WHERE job_id = ?;"
             try: 
-                with cursor.execute(tsql,department_id):
+                with cursor.execute(tsql,job_id):
                     row = cursor.fetchone()
                     with cursor.execute("select @@rowcount"):
                         rowcount = cursor.fetchall()[0][0]
                         if rowcount == 0: 
-                            print('Nessun record presente con department_id inserito\n')
+                            print('Nessun record presente con il job_id inserito\n')
                         else:
-                            print('\ndepartment_name | location_id')
-                            print (str(row[1]) + " | " + str(row[2]))
+                            print('\njob_title | min_salary | max_salary')
+                            print (str(row[1]) + " | " + str(row[2]) + " | " + str(row[3]))
                             sleep(0.2)
-                            print('\nNuovi valori')
-                            department_name = input('Inserisci il department_name [varchar(30)]: ')
-                            location_id = int(input('Inserisci il location_id [int]: '))
-                            tsql = "UPDATE departments SET department_name = ?, location_id = ? WHERE department_id = ?;"
+                            print('\nAggiorna salari')
+                            min_salary = int(input('Inserisci il min_salary [int]: '))
+                            max_salary = int(input('Inserisci il max_salary [int]: '))
+                            tsql = "UPDATE jobs SET min_salary = ?, max_salary = ? WHERE job_id = ?;"
                             try:
-                                with cursor.execute(tsql,department_name,location_id,department_id):
+                                with cursor.execute(tsql,min_salary,max_salary,job_id):
                                     print ('Record aggiornato correttamente\n')
                             except pyodbc.Error as ex:
                                 print(ex.args[1])
