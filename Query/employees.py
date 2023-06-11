@@ -24,7 +24,6 @@ else:
         print ('[2] Insert')
         print ('[3] Persone a carico')
         print ('[4] Update')
-        print ('[5] Delete') #TODO: da implementare
         print ('[0] Torna al menu principale')
         ans=input('Input: ')
 
