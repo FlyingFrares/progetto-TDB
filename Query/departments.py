@@ -11,7 +11,8 @@ try:
 except pyodbc.Error as ex:
     sqlstate = ex.args[0]
     if sqlstate == '28000':
-        print("Connessione per " + username + " fallita")
+        print("Connessione per " + username + " fallita\n")
+        sleep(0.5)
 else:
     print('\n')
     print(' ---------------------')
