@@ -1,11 +1,15 @@
 import os
+from time import sleep
 
 def show_menu():
-    print("Menu:")
-    print("1. Esegui file 1")
-    print("2. Esegui file 2")
-    print("3. Esegui file 3")
-    print("4. Esci")
+    print("Benvenuto nel programma di gestione del database HR")
+    print("Seleziona la tabella su cui effettuare operazioni:")
+    print("[1] countries")
+    print("[2] departments")
+    print("[3] employees")
+    print("[4] jobs")
+    print("[5] locations")
+    print("[0] Esci")
 
 def execute_file(file_name):
     try:
@@ -23,13 +27,19 @@ def main():
         if choice == "1":
             execute_file("Query/countries.py")
         elif choice == "2":
-            execute_file("file2.py")
+            execute_file("Query/departments.py")
         elif choice == "3":
-            execute_file("file3.py")
+            execute_file("Query/employees.py")
         elif choice == "4":
+            execute_file("Query/jobs.py")
+        elif choice == "5":
+            execute_file("Query/locations.py")
+        elif choice == "0":
+            print("Arrivederci!")
             break
         else:
-            print("Scelta non valida. Riprova.")
+            print('Selezione non valida, riprova\n')
+            sleep(0.5)
 
 if __name__ == "__main__":
     main()
