@@ -2,7 +2,6 @@ import os
 from time import sleep
 
 def show_menu():
-    print("Benvenuto nel programma di gestione del database HR")
     print("Seleziona la tabella su cui effettuare operazioni:")
     print("[1] countries")
     print("[2] departments")
@@ -20,6 +19,7 @@ def execute_file(file_name):
         print("Si è verificato un errore durante l'esecuzione del file:", e)
 
 def main():
+    print("Benvenuto nel programma di gestione del database HR")
     while True:
         show_menu()
         choice = input("Seleziona un'opzione: ")
@@ -35,7 +35,8 @@ def main():
         elif choice == "5":
             execute_file("Query/locations.py")
         elif choice == "0":
-            print("Arrivederci!")
+            print("Arrivederci!\n")
+            sleep(0.5)
             break
         else:
             print('Selezione non valida, riprova\n')

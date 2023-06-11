@@ -13,7 +13,10 @@ except pyodbc.Error as ex:
     if sqlstate == '28000':
         print("Connessione per " + username + " fallita")
 else:
-    print('\nTabella employees')
+    print('\n')
+    print(' -------------------')
+    print('| Tabella employees |')
+    print(' -------------------')
     ans=True
     while ans:
         print ('Seleziona operazione da eseguire:')
@@ -22,7 +25,7 @@ else:
         print ('[3] Persone a carico')
         print ('[4] Update')
         print ('[5] Delete') #TODO: da implementare
-        print ('[0] Esci')
+        print ('[0] Torna al menu principale')
         ans=input('Input: ')
 
         if ans=="1": 
@@ -117,7 +120,7 @@ else:
 
         elif ans =="0":
             #Exit
-            print('Adios\n')
+            print('\nTornando al menu principale...')
             ans = None
 
         else:
